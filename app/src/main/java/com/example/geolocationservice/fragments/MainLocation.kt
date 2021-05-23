@@ -117,6 +117,7 @@ class MainLocation(
             LocationData.location.removeObservers(this)
             btnLocating.setImageResource(R.drawable.ic_location_disable)
             tvLocatingLabel.text = getString(R.string.location_disable)
+            Toast.makeText(act.applicationContext, R.string.turn_of_gps, Toast.LENGTH_SHORT).show()
         }
         return true
     }

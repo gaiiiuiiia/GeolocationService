@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name = "app_name"> GeolocationService </string>
+    <string name = "Open_Drawer"> Открыть панель навигации </string>
+    <string name = "Close_Drawer"> Закрыть панель навигации </string>
+    <string name = "location_channel_name"> Служба геолокации уже здесь </string>
+    <string name = "location_enable"> Служба определения местоположения сейчас работает </string>
+    <string name = "location_disable"> Служба определения местоположения сейчас отключена </string>
+    <string name = "choose_date"> Выбрать дату </string>
+    <string name = "geolocation_not_allowed"> Геолокация не разрешена </string>
+    <string name = "gps_is_enabled"> GPS отключен. Пожалуйста, включите </string>
+    <string name = "latitude"> Широта </string>
+    <string name = "longitude"> Долгота </string>
+    <string name = "time_pre"> в </string>
+    <string name = "report_activities_label"> Вывод аквностей за %s. </string>
+    <string name = "export_not_realized"> Экспорт в CSV пока не реализован :( </string>
+    <string name = "turn_of_gps"> Не забудьте отключить службу GPS на своем устройстве </string>
+    <string name = "show_activities_label"> Выберать активность за период </string>
+</resources>

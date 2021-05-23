@@ -7,5 +7,12 @@
     <string name="location_disable">Location Service is disabled now</string>
     <string name="choose_date">Choose date</string>
     <string name="geolocation_not_allowed">"Geolocation is not allowed"</string>
-    <string name="gps_is_enabled">GPS is enable. Please, turn it ON</string>
+    <string name="gps_is_enabled">GPS is disabled. Please, turn it ON</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="time_pre">in</string>
+    <string name="report_activities_label">Report activities for %s.</string>
+    <string name="export_not_realized">Exporting to CSV is not realized yet :(</string>
+    <string name="turn_of_gps">Do not forget to turn off GPS service on your device</string>
+    <string name="show_activities_label">Activity available for</string>
 </resources>
