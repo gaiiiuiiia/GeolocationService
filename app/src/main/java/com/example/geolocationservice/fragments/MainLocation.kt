@@ -2,11 +2,16 @@ package com.example.geolocationservice.fragments
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +24,7 @@ import com.example.geolocationservice.Constants
 import com.example.geolocationservice.R
 import com.example.geolocationservice.database.DBHelper
 import com.example.geolocationservice.services.LocationData
+import com.example.geolocationservice.services.LocationHelper
 import com.example.geolocationservice.services.LocationService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -40,9 +46,9 @@ class MainLocation(
         myView = inflater.inflate(R.layout.main_fragment, container, false)
 
         btnLocating = myView.findViewById(R.id.btn_start_locating)
-        btnLocating.setImageResource(R.drawable.ic_location_disable)
         tvLocatingLabel = myView.findViewById(R.id.tv_main_locating_label)
-        tvLocatingLabel.text = getString(R.string.location_disable)
+
+        renderViewAccordingToServiceRunning()
 
         dbHelper = DBHelper(act.applicationContext)
 
@@ -91,12 +97,21 @@ class MainLocation(
     private fun changeServiceState(forceStart: Boolean = false): Boolean
     {
         if (!LocationService.running || forceStart){
-            sendCommand(Constants.START_LOCATION_SERVICE)
-            LocationData.location.observe(this){
-                onLocationUpdate(it)
+            return if ( checkGpsStatus() ) {
+                sendCommand(Constants.START_LOCATION_SERVICE)
+                LocationData.location.observe(this){
+                    onLocationUpdate(it)
+                }
+                btnLocating.setImageResource(R.drawable.ic_start_location)
+                tvLocatingLabel.text = getString(R.string.location_enable)
+                true
+            } else {
+                Toast.makeText(act.applicationContext, R.string.gps_is_enabled, Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }, 2000)
+                false
             }
-            btnLocating.setImageResource(R.drawable.ic_start_location)
-            tvLocatingLabel.text = getString(R.string.location_enable)
         } else {
             sendCommand(Constants.STOP_LOCATING_SERVICE)
             LocationData.location.removeObservers(this)
@@ -122,5 +137,32 @@ class MainLocation(
     private fun onLocationUpdate(l: Location)
     {
         dbHelper.saveLocation(l)
+    }
+
+    /**
+     * настраивает элементы фрагмента в соответствии с запуском службы
+     *
+     * кнопка будет не активна или наоборот активна, также и текст
+     */
+    private fun renderViewAccordingToServiceRunning()
+    {
+        if ( isServiceRunning() ) {
+            btnLocating.setImageResource(R.drawable.ic_start_location)
+            tvLocatingLabel.text = getString(R.string.location_enable)
+        } else {
+            btnLocating.setImageResource(R.drawable.ic_location_disable)
+            tvLocatingLabel.text = getString(R.string.location_disable)
+        }
+    }
+
+    private fun checkGpsStatus(): Boolean
+    {
+        val locationManager = (act.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun isServiceRunning(): Boolean
+    {
+        return LocationService.running
     }
 }

@@ -41,7 +41,7 @@ class LocationService: LifecycleService()
 
     private fun startLocationService(intent: Intent)
     {
-        if (LocatingHelper.startLocating(applicationContext, ::locationChanged)) {
+        if (LocationHelper.startLocating(applicationContext, ::locationChanged)) {
             running = true
             val channelId =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createNotificationChannel()
@@ -60,7 +60,7 @@ class LocationService: LifecycleService()
     private fun stopLocationService(intent: Intent)
     {
         running = false
-        LocatingHelper.stopLocating()
+        LocationHelper.stopLocating()
         stopService(intent)
     }
 

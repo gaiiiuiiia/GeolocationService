@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.example.geolocationservice.R
 
-object LocatingHelper: LocationListener
+object LocationHelper: LocationListener
 {
     private var locationManager: LocationManager? = null
     private var locationUpdater: ((Location)->Unit)? = null
@@ -28,31 +28,19 @@ object LocatingHelper: LocationListener
     {
         locationUpdater = locationUpdateListener
         locationManager = (context.getSystemService(Context.LOCATION_SERVICE) as LocationManager)
-            .also { locManager ->
+            .also { locationManager ->
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
                     return false
             }
-            // проверим активна ли GPS на телефоне
-            val gpsStatus = locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            if (gpsStatus) {
-                // если да, то запускаем менеджер
-                locManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    3000L,
-                    10F,
-                    this
-                )
-            } else {
-                // если нет, то просим включить службу GPS
-                Toast.makeText(context, R.string.gps_is_enabled, Toast.LENGTH_SHORT).show()
-                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).let{
-                    context.startActivity(it)
-                }
-                return false
-            }
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                3000L,
+                10F,
+                this
+            )
         }
         return true
     }
