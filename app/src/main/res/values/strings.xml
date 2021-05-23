@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GeolocationService</string>
+    <string name="Open_Drawer">Open Navigation Drawer</string>
+    <string name="Close_Drawer">Close Navigation Drawer</string>
+    <string name="location_channel_name">Geolocation Service is here</string>
+    <string name="location_enable">Location Service is running now</string>
+    <string name="location_disable">Location Service is disabled now</string>
+    <string name="choose_date">Choose date</string>
+    <string name="geolocation_not_allowed">"Geolocation is not allowed"</string>
+    <string name="gps_is_enabled">GPS is enable. Please, turn it ON</string>
+</resources>
