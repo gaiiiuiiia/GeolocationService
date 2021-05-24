@@ -38,7 +38,7 @@ object LocationHelper: LocationListener
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 3000L,
-                10F,
+                5F,
                 this
             )
         }

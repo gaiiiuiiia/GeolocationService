@@ -62,6 +62,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun onBackPressed()
+    {
+        supportFragmentManager.popBackStackImmediate()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun setStartFragment(): Boolean
     {
         navigationView.setCheckedItem(R.id.nav_home)
@@ -72,16 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .commit()
 
         return true
-    }
-
-    override fun onBackPressed()
-    {
-        supportFragmentManager.popBackStackImmediate()
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun getAboutText(): String
